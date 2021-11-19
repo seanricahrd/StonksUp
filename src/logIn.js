@@ -6,7 +6,7 @@ import {
 import React, { useRef, useState } from "react";
 import app from "./App";
 
-const signUp = (auth, email, password) => {
+const signUp = (auth, email, password, setLoggedIn) => {
   createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       // Signed in
@@ -14,6 +14,7 @@ const signUp = (auth, email, password) => {
 
       const user = userCredential.user;
       console.log(user);
+      setLoggedIn(true);
       // ...
     })
     .catch((error) => {
@@ -23,7 +24,7 @@ const signUp = (auth, email, password) => {
     });
 };
 
-const signIn = (auth, email, password) => {
+const signIn = (auth, email, password, setLoggedIn) => {
   signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       // Signed in
@@ -32,6 +33,7 @@ const signIn = (auth, email, password) => {
       console.log("HERE SIGNED IN USER");
       console.log(user);
       console.log(user);
+      setLoggedIn(true);
     })
     .catch((error) => {
       const errorCode = error.code;
@@ -39,7 +41,7 @@ const signIn = (auth, email, password) => {
     });
 };
 
-export default function () {
+export default function ({ setLoggedIn }) {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
 
@@ -52,7 +54,7 @@ export default function () {
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          signIn(auth, email, password);
+          signIn(auth, email, password, setLoggedIn);
         }}
       >
         <label>
@@ -78,7 +80,11 @@ export default function () {
         <button type="submit">SUBMIT</button>
       </form>
       <h1>Sign Up</h1>
-      <form onSubmit={(auth, email, password) => signUp(auth, email, password)}>
+      <form
+        onSubmit={(auth, email, password, setLoggedIn) =>
+          signUp(auth, email, password)
+        }
+      >
         <label>
           email
           <input

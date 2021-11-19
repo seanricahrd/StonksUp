@@ -35,5 +35,5 @@ export default function App() {
         {page === "logout" && <Logout />}
       </div>
     );
-  else return <LogIn />;
+  else return <LogIn setLoggedIn={setLoggedIn} />;
 }
