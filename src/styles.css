@@ -1,0 +1,61 @@
+.App {
+  font-family: sans-serif;
+  text-align: center;
+}
+.App {
+  font-family: sans-serif;
+  text-align: center;
+  background-color: rgb(206, 240, 195);
+  padding: 10px;
+}
+.container {
+  display: flex;
+}
+.empbtn {
+  background-color: blue;
+  color: white;
+}
+.orders {
+  background-color: rgb(255, 255, 255);
+  width: 60%;
+  justify-content: space-between;
+  border-radius: 25px;
+}
+.buttons {
+  position: relative;
+  background-color: rgb(255, 255, 255);
+  display: flex;
+  margin: auto;
+  margin-bottom: 20px;
+  max-width: 700px;
+  border-radius: 25px;
+  align-items: center;
+}
+.buttons:hover {
+  transform: scale(1.15);
+}
+.buybtn {
+  background: #50ff10;
+  color: white;
+  marginleft: auto;
+}
+.li {
+  list-style: none;
+}
+
+.price {
+  margin-left: auto;
+  margin-right: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.navButton {
+  height: 15vh;
+  width: 25%;
+  border: none;
+  background-color: rgb(206, 240, 195);
+}
+.navButton:hover {
+  background-color: #b4dfa4;
+}
