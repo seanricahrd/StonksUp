@@ -84,7 +84,7 @@ export default function ({ setTheAuthUser }) {
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          signIn(auth, email, password, setTheAuthUser);
+          signUp(auth, email, password, setTheAuthUser);
         }}
       >
         <label>
