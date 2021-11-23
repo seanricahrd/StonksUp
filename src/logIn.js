@@ -3,10 +3,11 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword
 } from "firebase/auth";
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
+import firebaseApp from "./firebase-config";
 import app from "./App";
 
-const signUp = (auth, email, password, setLoggedIn) => {
+const signUp = (auth, email, password, setTheAuthUser) => {
   createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       // Signed in
@@ -14,7 +15,7 @@ const signUp = (auth, email, password, setLoggedIn) => {
 
       const user = userCredential.user;
       console.log(user);
-      setLoggedIn(true);
+      setTheAuthUser(user);
       // ...
     })
     .catch((error) => {
@@ -24,7 +25,7 @@ const signUp = (auth, email, password, setLoggedIn) => {
     });
 };
 
-const signIn = (auth, email, password, setLoggedIn) => {
+const signIn = (auth, email, password, setTheAuthUser) => {
   signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       // Signed in
@@ -33,7 +34,7 @@ const signIn = (auth, email, password, setLoggedIn) => {
       console.log("HERE SIGNED IN USER");
       console.log(user);
       console.log(user);
-      setLoggedIn(true);
+      setTheAuthUser(user);
     })
     .catch((error) => {
       const errorCode = error.code;
@@ -41,11 +42,11 @@ const signIn = (auth, email, password, setLoggedIn) => {
     });
 };
 
-export default function ({ setLoggedIn }) {
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
+export default function ({ setTheAuthUser }) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const auth = getAuth();
+  const auth = getAuth(firebaseApp);
 
   return (
     <div>
@@ -54,7 +55,7 @@ export default function ({ setLoggedIn }) {
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          signIn(auth, email, password, setLoggedIn);
+          signIn(auth, email, password, setTheAuthUser);
         }}
       >
         <label>
@@ -81,9 +82,10 @@ export default function ({ setLoggedIn }) {
       </form>
       <h1>Sign Up</h1>
       <form
-        onSubmit={(auth, email, password, setLoggedIn) =>
-          signUp(auth, email, password)
-        }
+        onSubmit={(e) => {
+          e.preventDefault();
+          signIn(auth, email, password, setTheAuthUser);
+        }}
       >
         <label>
           email

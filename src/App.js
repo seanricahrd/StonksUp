@@ -9,9 +9,9 @@ import app from "./firebase-config";
 
 export default function App() {
   const [page, setPage] = useState("home");
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [theAuthUser, setTheAuthUser] = useState(null);
 
-  if (loggedIn)
+  if (theAuthUser)
     return (
       <div className="App">
         <div className="navbar">
@@ -35,5 +35,5 @@ export default function App() {
         {page === "logout" && <Logout />}
       </div>
     );
-  else return <LogIn setLoggedIn={setLoggedIn} />;
+  else return <LogIn setTheAuthUser={setTheAuthUser} />;
 }
