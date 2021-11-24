@@ -32,7 +32,7 @@ export default function App() {
         {page === "home" && <Homepage />}
         {page === "portfolio" && <Portfolio />}
         {page === "stonks" && <Stonks />}
-        {page === "logout" && <Logout />}
+        {page === "logout" && <Logout setTheAuthUser={setTheAuthUser} />}
       </div>
     );
   else return <LogIn setTheAuthUser={setTheAuthUser} />;
