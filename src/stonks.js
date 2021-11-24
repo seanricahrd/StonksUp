@@ -37,7 +37,7 @@ class App extends Component {
       console.log(jsonResult.stockData);
       // update the state variables correctly.
       this.setState({ apiData: jsonResult.stockData });
-      console.log("BELOW");
+
       console.log(this.state.apiData);
       this.setState({ isFetched: true });
     } catch (error) {
@@ -53,18 +53,22 @@ class App extends Component {
     let foundItem = this.state.apiData.filter(this.findItemByIndex(index));
 
     this.setState({ buying: this.state.buying.concat(foundItem) });
+    console.log("found item HERE");
+    console.log(foundItem);
   }
   sellStock(index) {
     let foundItem = this.state.apiData.filter(this.findItemByIndex(index));
-
+    console.log("foung item HERE");
     this.setState({ selling: this.state.selling.concat(foundItem) });
     console.log(this.state.selling);
   }
 
   findItemByIndex(index) {
-    console.log("HERE");
+    console.log("finding item HERE");
+    console.log(index);
+
     return function (sObject) {
-      return sObject.stock.index === index;
+      return sObject.stockID === index + 1;
     };
   }
 
@@ -134,22 +138,20 @@ class App extends Component {
 
         <hr />
         <ul>
-          {this.state.apiData.map((s, index) => (
-            <li className="li" key={index}>
+          {this.state.apiData.map((s, key) => (
+            <li className="li" key={key}>
               <div className="buttons" onMouseOver={this.boxMouseOverHandler}>
                 <b>{s.stock.symbol}</b>
 
                 <div style={{ alignItems: "center", width: "80%" }}>
                   <p>{s.stock.name}</p>
+                  <h1>{key}</h1>
                   <p>{s.stock.sector}</p>
                 </div>
 
                 <div className="price">
                   <p>${s.rates.buy}</p>
-                  <button
-                    className="buybtn"
-                    onClick={() => this.buyStock(index)}
-                  >
+                  <button className="buybtn" onClick={() => this.buyStock(key)}>
                     BUY
                   </button>
                 </div>
@@ -158,7 +160,7 @@ class App extends Component {
                   <button
                     style={{ background: "red", color: "white" }}
                     className="sellbtn"
-                    onClick={() => this.sellStock(index)}
+                    onClick={() => this.sellStock(key)}
                   >
                     SELL
                   </button>
