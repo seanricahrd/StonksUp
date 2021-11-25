@@ -1,11 +1,22 @@
 import React, { Component } from "react";
+import app from "./App";
 import "./styles.css";
+import { db } from "./firebase-config";
+import {
+  doc,
+  setDoc,
+  addDoc,
+  collection,
+  arrayUnion,
+  arrayRemove
+} from "firebase/firestore";
 
 class App extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      currentUser: props.currentUser,
       size: "",
       apiData: [],
       errorMsg: null,
@@ -16,7 +27,7 @@ class App extends Component {
 
     this.sellStock = this.sellStock.bind(this);
     this.buyStock = this.buyStock.bind(this);
-    this.empty = this.empty.bind(this);
+    this.addPortfolio = this.addPortfolio.bind(this);
     this.empty2 = this.empty2.bind(this);
   } // end constructor
 
@@ -24,6 +35,8 @@ class App extends Component {
   // component is mounted (inserted into the tree)
 
   async componentDidMount() {
+    //console.log("USER");
+    //console.log(currentUser);
     try {
       const API_URL =
         "https://raw.githubusercontent.com/petermooney/cs385/main/stockapi/stocks40.json";
@@ -54,11 +67,12 @@ class App extends Component {
 
     this.setState({ buying: this.state.buying.concat(foundItem) });
     console.log("found item HERE");
-    console.log(foundItem);
+    //console.log(foundItem.stockData);
+    console.log(this.state.buying);
   }
   sellStock(index) {
     let foundItem = this.state.apiData.filter(this.findItemByIndex(index));
-    console.log("foung item HERE");
+    console.log("found item HERE");
     this.setState({ selling: this.state.selling.concat(foundItem) });
     console.log(this.state.selling);
   }
@@ -72,14 +86,32 @@ class App extends Component {
     };
   }
 
-  empty() {
+  addPortfolio = async (e) => {
+    e.preventDefault();
+    // {this.state.buying.map((s, key) => (
+    //   <li key={key}>
+    //     {s.stock.symbol} {s.stock.name} ${s.rates.buy} {s.rates.sell}
+    //   </li>
+    let s = this.state.buying[0];
+    console.log("buying array");
+    console.log(s.stock.name);
+
+    await addDoc(collection(db, "Stockies"), {
+      //stockID: s.stockID,
+      symbol: s.stock.symbol,
+      name: s.stock.name,
+      sector: s.stock.sector,
+      buy: s.rates.buy,
+      sell: s.rates.sell,
+      userID: this.state.currentUser.uid
+    });
     this.setState({ buying: [] });
-  }
+  };
   empty2() {
     this.setState({ selling: [] });
   }
   boxMouseOverHandler(e) {
-    console.log(e.target);
+    //console.log(e.target);
   }
 
   render() {
@@ -95,18 +127,16 @@ class App extends Component {
             <br />
             Total cost:{" "}
             {this.state.buying.reduce((total, item) => {
-              return total + item.Price;
+              return total + item.rates.buy;
             }, 0)}
             <br />
-            <button className="empbtn" onClick={this.empty}>
-              EMPTY
+            <button className="empbtn" onClick={this.addPortfolio}>
+              ADD TO PORTFOLIO
             </button>
             <ol>
               {this.state.buying.map((s, key) => (
                 <li key={key}>
-                  {s.stock.Symbol}
-                  {s.stock.Company}
-                  {s.stock.Price}
+                  {s.stock.symbol} {s.stock.name} ${s.rates.buy}
                 </li>
               ))}
             </ol>
@@ -122,14 +152,12 @@ class App extends Component {
             }, 0)}
             <br />
             <button className="empbtn" onClick={this.empty2}>
-              EMPTY
+              REMOVE FROM PORTFOLIO
             </button>
             <ol>
               {this.state.selling.map((s, key) => (
                 <li key={key}>
-                  {s.stock.Symbol}
-                  {s.stock.Company}
-                  {s.stock.Price}
+                  {s.stock.symbol} {s.stock.name} ${s.rates.sell}
                 </li>
               ))}
             </ol>

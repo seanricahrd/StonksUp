@@ -29,9 +29,9 @@ export default function App() {
           </button>
         </div>
         {console.log(page)}
-        {page === "home" && <Homepage />}
-        {page === "portfolio" && <Portfolio />}
-        {page === "stonks" && <Stonks />}
+        {page === "home" && <Homepage currentUser={theAuthUser} />}
+        {page === "portfolio" && <Portfolio currentUser={theAuthUser} />}
+        {page === "stonks" && <Stonks currentUser={theAuthUser} />}
         {page === "logout" && <Logout setTheAuthUser={setTheAuthUser} />}
       </div>
     );
