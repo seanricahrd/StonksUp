@@ -40,6 +40,7 @@ export default function ({ currentUser }) {
           {s.name}
           {s.sector}
           {s.buy}
+          {/* reduce */}
           {s.sell}
         </div>
       ))}
