@@ -6,7 +6,10 @@
   font-family: sans-serif;
   text-align: center;
   background-color: rgb(206, 240, 195);
-  padding: 10px;
+
+  height: 100%;
+  width: 100%;
+  padding: none;
 }
 .container {
   display: flex;
