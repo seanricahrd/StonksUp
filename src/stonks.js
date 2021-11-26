@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import SearchForm from "./SearchForm.js";
 import SearchResults from "./SearchResults.js";
-import Reset from "./Reset.js";
 import app from "./App";
 import "./styles.css";
 import { db } from "./firebase-config";
@@ -136,19 +135,6 @@ class App extends Component {
       <div className="App">
         <h1>Stocks and Shares</h1>
         {/* TASK 2: Make a new Seach Component */}
-        The search term is <b>[{this.state.searchTerm}]</b>. There are{" "}
-        <b>[{this.state.len}]</b> characters typed.
-        <SearchForm
-          searchTerm={this.state.searchTerm}
-          onChange={this.onSearchFormChange}
-        />
-        <SearchResults
-          searchTerm={this.state.searchTerm}
-          globalArray={this.state.apiData}
-        />
-        <hr />
-        <Reset buttonHandler={this.handleResetClick} />
-        <hr />
         <div className="container">
           <div className="orders">
             <h2>BUYING:</h2>
@@ -193,39 +179,16 @@ class App extends Component {
             </ol>
           </div>
         </div>
+
+        <SearchForm
+          searchTerm={this.state.searchTerm}
+          onChange={this.onSearchFormChange}
+        />
+        <SearchResults
+          searchTerm={this.state.searchTerm}
+          globalArray={this.state.apiData}
+        />
         <hr />
-        <ul>
-          {this.state.apiData.map((s, key) => (
-            <li className="li" key={key}>
-              <div className="buttons" onMouseOver={this.boxMouseOverHandler}>
-                <b>{s.stock.symbol}</b>
-
-                <div style={{ alignItems: "center", width: "80%" }}>
-                  <p>{s.stock.name}</p>
-                  <h1>{key}</h1>
-                  <p>{s.stock.sector}</p>
-                </div>
-
-                <div className="price">
-                  <p>${s.rates.buy}</p>
-                  <button className="buybtn" onClick={() => this.buyStock(key)}>
-                    BUY
-                  </button>
-                </div>
-                <div className="price">
-                  <p>{s.rates.sell}</p>
-                  <button
-                    style={{ background: "red", color: "white" }}
-                    className="sellbtn"
-                    onClick={() => this.sellStock(key)}
-                  >
-                    SELL
-                  </button>
-                </div>
-              </div>
-            </li>
-          ))}
-        </ul>
       </div>
     ); // end of return statement
   } // end of render function
