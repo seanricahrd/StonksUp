@@ -40,6 +40,7 @@ export default function ({ currentUser }) {
           {s.name}
           {s.sector}
           {s.buy}
+          {/* TASK 1: Add a reduce function to caculate the total buy */}
           {s.sell}
         </div>
       ))}
