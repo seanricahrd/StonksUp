@@ -12,7 +12,7 @@ class SearchResults extends Component {
     return function (musicObject) {
       let stockname = musicObject.stock.name;
 
-      return searchTerm !== "" && stockname.includes(searchTerm); // end of return statement
+      return stockname.includes(searchTerm); // end of return statement
     }; // end of return function
   } // end of addressFilterFunction
 
