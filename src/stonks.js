@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+import SearchForm from "./SearchForm.js";
+import SearchResults from "./SearchResults.js";
+import Reset from "./Reset.js";
 import app from "./App";
 import "./styles.css";
 import { db } from "./firebase-config";
@@ -22,17 +25,31 @@ class App extends Component {
       errorMsg: null,
       isFetched: false,
       buying: [],
-      selling: []
+      selling: [],
+      searchTerm: "",
+      len: 0
     };
 
     this.sellStock = this.sellStock.bind(this);
     this.buyStock = this.buyStock.bind(this);
     this.addPortfolio = this.addPortfolio.bind(this);
     this.empty2 = this.empty2.bind(this);
+    this.onSearchFormChange = this.onSearchFormChange.bind(this);
+    this.handleResetClick = this.handleResetClick.bind(this);
   } // end constructor
 
   // componentDidMount() is invoked immediately after a
   // component is mounted (inserted into the tree)
+  handleResetClick() {
+    this.setState({ searchTerm: "", len: 0 });
+  }
+
+  onSearchFormChange(event) {
+    this.setState({ searchTerm: event.target.value });
+    let sTerm = event.target.value;
+    let numChars = sTerm.length;
+    this.setState({ len: numChars });
+  } // end onSearchFormChange
 
   async componentDidMount() {
     //console.log("USER");
@@ -118,8 +135,20 @@ class App extends Component {
     return (
       <div className="App">
         <h1>Stocks and Shares</h1>
+        {/* TASK 2: Make a new Seach Component */}
+        The search term is <b>[{this.state.searchTerm}]</b>. There are{" "}
+        <b>[{this.state.len}]</b> characters typed.
+        <SearchForm
+          searchTerm={this.state.searchTerm}
+          onChange={this.onSearchFormChange}
+        />
+        <SearchResults
+          searchTerm={this.state.searchTerm}
+          globalArray={this.state.apiData}
+        />
         <hr />
-
+        <Reset buttonHandler={this.handleResetClick} />
+        <hr />
         <div className="container">
           <div className="orders">
             <h2>BUYING:</h2>
@@ -133,6 +162,7 @@ class App extends Component {
             <button className="empbtn" onClick={this.addPortfolio}>
               ADD TO PORTFOLIO
             </button>
+            {/* TASK 3：Add a button to REMOVE the Portfolio */}
             <ol>
               {this.state.buying.map((s, key) => (
                 <li key={key}>
@@ -163,7 +193,6 @@ class App extends Component {
             </ol>
           </div>
         </div>
-
         <hr />
         <ul>
           {this.state.apiData.map((s, key) => (
