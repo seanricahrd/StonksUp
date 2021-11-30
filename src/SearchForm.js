@@ -6,11 +6,8 @@ class SearchForm extends Component {
     const onChangeFromProps = this.props.onChange;
     return (
       <div className="SearchForm">
-        <hr />
-        <h1>This is SearchForm</h1>
-        This is SearchForm
         <form>
-          Search for the <b>Stonkname:</b>
+          <b>Search:</b>
           <input
             type="text"
             value={searchTermFromProps}

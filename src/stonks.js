@@ -25,8 +25,7 @@ class App extends Component {
       isFetched: false,
       buying: [],
       selling: [],
-      searchTerm: "",
-      len: 0
+      searchTerm: ""
     };
 
     this.sellStock = this.sellStock.bind(this);
@@ -34,40 +33,32 @@ class App extends Component {
     this.addPortfolio = this.addPortfolio.bind(this);
     this.empty2 = this.empty2.bind(this);
     this.onSearchFormChange = this.onSearchFormChange.bind(this);
-    this.handleResetClick = this.handleResetClick.bind(this);
   } // end constructor
 
   // componentDidMount() is invoked immediately after a
   // component is mounted (inserted into the tree)
-  handleResetClick() {
-    this.setState({ searchTerm: "", len: 0 });
-  }
 
   onSearchFormChange(event) {
     this.setState({ searchTerm: event.target.value });
-    let sTerm = event.target.value;
-    let numChars = sTerm.length;
-    this.setState({ len: numChars });
   } // end onSearchFormChange
 
   async componentDidMount() {
     //console.log("USER");
     //console.log(currentUser);
     try {
-      const API_URL =
-        "https://raw.githubusercontent.com/petermooney/cs385/main/stockapi/stocks40.json";
+      const API_URL = "https://my.api.mockaroo.com/stockData.json?key=59da3a10";
       // Fetch or access the service at the API_URL address
       const response = await fetch(API_URL);
 
       // wait for the response. When it arrives, store the JSON version
       // of the response in this variable.
       const jsonResult = await response.json();
-      console.log("response");
-      console.log(jsonResult.stockData);
+      //console.log("response");
+      //console.log(jsonResult.stockData);
       // update the state variables correctly.
-      this.setState({ apiData: jsonResult.stockData });
+      this.setState({ apiData: jsonResult });
 
-      console.log(this.state.apiData);
+      //console.log(this.state.apiData);
       this.setState({ isFetched: true });
     } catch (error) {
       // In the case of an error ...
@@ -82,20 +73,20 @@ class App extends Component {
     let foundItem = this.state.apiData.filter(this.findItemByIndex(index));
 
     this.setState({ buying: this.state.buying.concat(foundItem) });
-    console.log("found item HERE");
+    //console.log("found item HERE");
     //console.log(foundItem.stockData);
-    console.log(this.state.buying);
+    //console.log(this.state.buying);
   }
   sellStock(index) {
     let foundItem = this.state.apiData.filter(this.findItemByIndex(index));
-    console.log("found item HERE");
+    //console.log("found item HERE");
     this.setState({ selling: this.state.selling.concat(foundItem) });
-    console.log(this.state.selling);
+    //console.log(this.state.selling);
   }
 
   findItemByIndex(index) {
-    console.log("finding item HERE");
-    console.log(index);
+    //console.log("finding item HERE");
+    //console.log(index);
 
     return function (sObject) {
       return sObject.stockID === index + 1;
@@ -109,8 +100,8 @@ class App extends Component {
     //     {s.stock.symbol} {s.stock.name} ${s.rates.buy} {s.rates.sell}
     //   </li>
     let s = this.state.buying[0];
-    console.log("buying array");
-    console.log(s.stock.name);
+    //console.log("buying array");
+    //console.log(s.stock.name);
 
     await addDoc(collection(db, "Stockies"), {
       //stockID: s.stockID,
@@ -185,6 +176,8 @@ class App extends Component {
           onChange={this.onSearchFormChange}
         />
         <SearchResults
+          sellStock={this.sellStock}
+          buyStock={this.buyStock}
           searchTerm={this.state.searchTerm}
           globalArray={this.state.apiData}
         />

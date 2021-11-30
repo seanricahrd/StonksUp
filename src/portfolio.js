@@ -29,19 +29,28 @@ export default function ({ currentUser }) {
     return () => unsub();
   }, [currentUser]);
 
+  async function sellStock(id) {
+    console.log("DELETING STOCK");
+    console.log(id);
+    await deleteDoc(doc(db, "Stockies", id));
+  }
+
   return (
     <div>
       <h1>PORTFOLIO</h1>
       {currentUser.email}
       {stockies.map((s, key) => (
-        <div key={s.id}>
-          {console.log(s)}
-          {s.symbol}
-          {s.name}
-          {s.sector}
-          {s.buy}
-          {/* TASK 1: Add a reduce function to caculate the total buy */}
-          {s.sell}
+        <div className="li" key={s.id}>
+          <div className="buttons" onMouseOver={this.boxMouseOverHandler}>
+            {console.log(s)}
+            {s.symbol}
+            {s.name}
+            {s.sector}
+            {s.buy}
+            {/* TASK 1: Add a reduce function to caculate the total buy */}
+            {s.sell}
+            <button onClick={() => sellStock(s.id)}>SELL</button>
+          </div>
         </div>
       ))}
 

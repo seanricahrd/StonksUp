@@ -9,8 +9,8 @@ class SearchResults extends Component {
   }
 
   spotifyFilterFunction(searchTerm) {
-    return function (musicObject) {
-      let stockname = musicObject.stock.name;
+    return function (stockObject) {
+      let stockname = stockObject.stock.name;
 
       return stockname.includes(searchTerm); // end of return statement
     }; // end of return function
@@ -20,16 +20,8 @@ class SearchResults extends Component {
     const arrayPassedAsParameter = this.props.globalArray;
     const searchTermFromProps = this.props.searchTerm;
 
-    let numberResults = arrayPassedAsParameter.filter(
-      this.spotifyFilterFunction(searchTermFromProps)
-    ).length;
-
     return (
       <div className="SearchResults">
-        <hr />
-        <h1>This is SearchResults</h1>
-        This is SearchResults Number of Results found {numberResults}
-        <hr />
         {arrayPassedAsParameter
           .filter(this.spotifyFilterFunction(searchTermFromProps))
           .map((s, key) => (
@@ -44,17 +36,20 @@ class SearchResults extends Component {
                 </div>
 
                 <div className="price">
-                  <p>${s.rates.buy}</p>
-                  <button className="buybtn" onClick={() => this.buyStock(key)}>
+                  <p style={{ margin: "10px" }}>${s.rates.buy}</p>
+                  <button
+                    className="buybtn"
+                    onClick={() => this.props.buyStock(key)}
+                  >
                     BUY
                   </button>
                 </div>
                 <div className="price">
-                  <p>{s.rates.sell}</p>
+                  <p style={{ margin: "10px" }}>{s.rates.sell}</p>
                   <button
                     style={{ background: "red", color: "white" }}
                     className="sellbtn"
-                    onClick={() => this.sellStock(key)}
+                    onClick={() => this.props.sellStock(key)}
                   >
                     SELL
                   </button>
