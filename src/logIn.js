@@ -9,11 +9,13 @@ import app from "./App";
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "./firebase-config";
 
-const setBalance = async (user) => {
+const addNewBalance = async (user) => {
   //  e.preventDefault();
+  console.log("setting balance for user");
+  console.log(user);
   await addDoc(collection(db, "Stockies"), {
-    balance: 0,
-    userID: user
+    balance: 1000,
+    userID: user.email
   });
 };
 
@@ -28,7 +30,7 @@ const signUp = (auth, email, password, setTheAuthUser) => {
       console.log("ID?????");
       console.log(user.uid);
       setTheAuthUser(user);
-      setBalance(user.uid);
+      addNewBalance(user);
 
       // ...
     })
@@ -56,10 +58,9 @@ const signIn = (auth, email, password, setTheAuthUser) => {
     });
 };
 
-export default function ({ setTheAuthUser }) {
+export default function ({ setTheAuthUser, setBalance, balance }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const auth = getAuth(firebaseApp);
 
   return (

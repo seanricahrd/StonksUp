@@ -5,7 +5,7 @@ import Portfolio from "./portfolio";
 import Stonks from "./stonks";
 import Logout from "./logout";
 import LogIn from "./logIn";
-import Balance from "./balance";
+import User from "./user";
 import ShowBalance from "./showBalance";
 import app from "./firebase-config";
 import bull from "./images/pngfind.com-bulls-png-6600169.png";
@@ -23,6 +23,8 @@ import { db } from "./firebase-config";
 export default function App() {
   const [page, setPage] = useState("home");
   const [theAuthUser, setTheAuthUser] = useState(null);
+  const [balance, setBalance] = useState(0);
+  const [balanceID, setBalanceID] = useState("");
 
   if (theAuthUser)
     return (
@@ -38,7 +40,7 @@ export default function App() {
           <button className="navButton" onClick={() => setPage("stonks")}>
             STONKS
           </button>
-          <button className="navButton" onClick={() => setPage("balance")}>
+          <button className="navButton" onClick={() => setPage("User")}>
             {/* {theAuthUser.email} */}
             USER
             <br /> {}
@@ -46,15 +48,27 @@ export default function App() {
           <button className="navButton" onClick={() => setPage("logout")}>
             LOGOUT
           </button>
-          <ShowBalance currentUser={theAuthUser} />
+          <ShowBalance
+            currentUser={theAuthUser}
+            setBalance={setBalance}
+            balance={balance}
+            setBalanceID={setBalanceID}
+          />
           <h1></h1>
         </div>
-        {console.log(page)}
+        {/* {console.log(page)} */}
         {page === "home" && <Homepage currentUser={theAuthUser} />}
         {page === "portfolio" && <Portfolio currentUser={theAuthUser} />}
         {page === "stonks" && <Stonks currentUser={theAuthUser} />}
         {page === "logout" && <Logout setTheAuthUser={setTheAuthUser} />}
-        {page === "balance" && <Balance currentUser={theAuthUser} />}
+        {page === "User" && (
+          <User
+            currentUser={theAuthUser}
+            balanceID={balanceID}
+            balance={balance}
+            setBalance={setBalance}
+          />
+        )}
       </div>
     );
   else return <LogIn setTheAuthUser={setTheAuthUser} />;

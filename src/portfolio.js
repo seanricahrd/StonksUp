@@ -30,8 +30,8 @@ export default function ({ currentUser }) {
   }, [currentUser]);
 
   async function sellStock(id) {
-    console.log("DELETING STOCK");
-    console.log(id);
+    //console.log("DELETING STOCK");
+    //console.log(id);
     await deleteDoc(doc(db, "Stockies", id));
   }
 
