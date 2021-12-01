@@ -1,18 +1,28 @@
 import "./styles.css";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Homepage from "./homepage";
 import Portfolio from "./portfolio";
 import Stonks from "./stonks";
 import Logout from "./logout";
 import LogIn from "./logIn";
 import Balance from "./balance";
+import ShowBalance from "./showBalance";
 import app from "./firebase-config";
 import bull from "./images/pngfind.com-bulls-png-6600169.png";
+import {
+  collection,
+  query,
+  onSnapshot,
+  doc,
+  where,
+  updateDoc,
+  deleteDoc
+} from "firebase/firestore";
+import { db } from "./firebase-config";
 
 export default function App() {
   const [page, setPage] = useState("home");
   const [theAuthUser, setTheAuthUser] = useState(null);
-  const [balance, setBalance] = useState(0);
 
   if (theAuthUser)
     return (
@@ -28,31 +38,23 @@ export default function App() {
           <button className="navButton" onClick={() => setPage("stonks")}>
             STONKS
           </button>
+          <button className="navButton" onClick={() => setPage("balance")}>
+            {/* {theAuthUser.email} */}
+            USER
+            <br /> {}
+          </button>
           <button className="navButton" onClick={() => setPage("logout")}>
             LOGOUT
           </button>
-          <button
-            style={{ wordWrap: "" }}
-            className="navButton"
-            onClick={() => setPage("balance")}
-          >
-            {/* {theAuthUser.email} */}
-            BALANCE
-            <br /> {balance}
-          </button>
+          <ShowBalance currentUser={theAuthUser} />
+          <h1></h1>
         </div>
         {console.log(page)}
         {page === "home" && <Homepage currentUser={theAuthUser} />}
         {page === "portfolio" && <Portfolio currentUser={theAuthUser} />}
         {page === "stonks" && <Stonks currentUser={theAuthUser} />}
         {page === "logout" && <Logout setTheAuthUser={setTheAuthUser} />}
-        {page === "balance" && (
-          <Balance
-            currentUser={theAuthUser}
-            balance={balance}
-            setBalance={setBalance}
-          />
-        )}
+        {page === "balance" && <Balance currentUser={theAuthUser} />}
       </div>
     );
   else return <LogIn setTheAuthUser={setTheAuthUser} />;

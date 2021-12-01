@@ -3,14 +3,15 @@ import { db } from "./firebase-config";
 import { collection, addDoc } from "firebase/firestore";
 
 const AddBalance = ({ currentUser, setBalance, balance }) => {
-  const [newBalance, setNewBalance] = useState(0);
+  //const [newBalance, setNewBalance] = useState(0);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    await addDoc(collection(db, "Stockies"), {
-      balance: newBalance
-    });
-  };
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   await addDoc(collection(db, "Stockies"), {
+  //     balance: newBalance
+  //     // userID:
+  //   });
+  // };
 
   return (
     <div>
@@ -19,7 +20,7 @@ const AddBalance = ({ currentUser, setBalance, balance }) => {
       <br />
 
       <br />
-      <form onSubmit={handleSubmit}>
+      {/* <form onSubmit={handleSubmit}>
         <div>
           <input
             type="number"
@@ -29,7 +30,7 @@ const AddBalance = ({ currentUser, setBalance, balance }) => {
           />
         </div>
         <button>Add to balance</button>
-      </form>
+      </form> */}
     </div>
   );
 };

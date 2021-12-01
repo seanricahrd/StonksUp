@@ -8,7 +8,7 @@ class SearchResults extends Component {
     };
   }
 
-  spotifyFilterFunction(searchTerm) {
+  stockFilter(searchTerm) {
     return function (stockObject) {
       let stockname = stockObject.stock.name;
 
@@ -23,7 +23,7 @@ class SearchResults extends Component {
     return (
       <div className="SearchResults">
         {arrayPassedAsParameter
-          .filter(this.spotifyFilterFunction(searchTermFromProps))
+          .filter(this.stockFilter(searchTermFromProps))
           .map((s, key) => (
             <li className="li" key={key}>
               <div className="buttons" onMouseOver={this.boxMouseOverHandler}>
@@ -31,7 +31,7 @@ class SearchResults extends Component {
 
                 <div style={{ alignItems: "center", width: "80%" }}>
                   <p>{s.stock.name}</p>
-                  <h1>{key}</h1>
+
                   <p>{s.stock.sector}</p>
                 </div>
 

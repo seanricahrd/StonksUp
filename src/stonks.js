@@ -170,11 +170,12 @@ class App extends Component {
             </ol>
           </div>
         </div>
-
+        <hr />
         <SearchForm
           searchTerm={this.state.searchTerm}
           onChange={this.onSearchFormChange}
         />
+        <hr />
         <SearchResults
           sellStock={this.sellStock}
           buyStock={this.buyStock}

@@ -6,16 +6,30 @@ import {
 import React, { useState } from "react";
 import firebaseApp from "./firebase-config";
 import app from "./App";
+import { collection, addDoc } from "firebase/firestore";
+import { db } from "./firebase-config";
+
+const setBalance = async (user) => {
+  //  e.preventDefault();
+  await addDoc(collection(db, "Stockies"), {
+    balance: 0,
+    userID: user
+  });
+};
 
 const signUp = (auth, email, password, setTheAuthUser) => {
   createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       // Signed in
-      console.log("HELLO");
 
       const user = userCredential.user;
+      console.log("HELLO");
       console.log(user);
+      console.log("ID?????");
+      console.log(user.uid);
       setTheAuthUser(user);
+      setBalance(user.uid);
+
       // ...
     })
     .catch((error) => {
