@@ -59,7 +59,13 @@ export default function App() {
         {/* {console.log(page)} */}
         {page === "home" && <Homepage currentUser={theAuthUser} />}
         {page === "portfolio" && <Portfolio currentUser={theAuthUser} />}
-        {page === "stonks" && <Stonks currentUser={theAuthUser} />}
+        {page === "stonks" && (
+          <Stonks
+            currentUser={theAuthUser}
+            balance={balance}
+            balanceID={balanceID}
+          />
+        )}
         {page === "logout" && <Logout setTheAuthUser={setTheAuthUser} />}
         {page === "User" && (
           <User

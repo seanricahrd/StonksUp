@@ -7,6 +7,7 @@ import { db } from "./firebase-config";
 import {
   doc,
   setDoc,
+  updateDoc,
   addDoc,
   collection,
   arrayUnion,
@@ -25,7 +26,8 @@ class App extends Component {
       isFetched: false,
       buying: [],
       selling: [],
-      searchTerm: ""
+      searchTerm: "",
+      newBalance: props.balance
     };
 
     this.sellStock = this.sellStock.bind(this);
@@ -71,8 +73,8 @@ class App extends Component {
   buyStock(index) {
     //console.log("STOCK: " + symbol);
     let foundItem = this.state.apiData.filter(this.findItemByIndex(index));
-
-    this.setState({ buying: this.state.buying.concat(foundItem) });
+    this.setState({ buying: foundItem });
+    //this.setState({ buying: this.state.buying.concat(foundItem) });
     //console.log("found item HERE");
     //console.log(foundItem.stockData);
     //console.log(this.state.buying);
@@ -99,21 +101,41 @@ class App extends Component {
     //   <li key={key}>
     //     {s.stock.symbol} {s.stock.name} ${s.rates.buy} {s.rates.sell}
     //   </li>
-    let s = this.state.buying[0];
-    //console.log("buying array");
-    //console.log(s.stock.name);
 
-    await addDoc(collection(db, "Stockies"), {
-      //stockID: s.stockID,
-      symbol: s.stock.symbol,
-      name: s.stock.name,
-      sector: s.stock.sector,
-      buy: s.rates.buy,
-      sell: s.rates.sell,
-      userID: this.state.currentUser.uid
+    let s = this.state.buying[0];
+
+    console.log("buying array");
+    console.log(s.stock.name);
+    console.log(s.rates.buy);
+    console.log("balnce ID??");
+    console.log(this.props.balanceID);
+    console.log(this.state.newBalance);
+    let minused = Number(this.state.newBalance - s.rates.buy);
+    console.log(minused);
+
+    console.log("BELOW");
+    console.log(this.state.newBalance);
+
+    await updateDoc(doc(db, "Stockies", this.props.balanceID), {
+      balance: minused
     });
-    this.setState({ buying: [] });
+
+    try {
+      await addDoc(collection(db, "Stockies"), {
+        //stockID: s.stockID,
+        symbol: s.stock.symbol,
+        name: s.stock.name,
+        sector: s.stock.sector,
+        buy: s.rates.buy,
+        sell: s.rates.sell,
+        userID: this.state.currentUser.uid
+      });
+      this.setState({ buying: [] });
+    } catch (Error) {
+      //end of trycatch
+    }
   };
+
   empty2() {
     this.setState({ selling: [] });
   }

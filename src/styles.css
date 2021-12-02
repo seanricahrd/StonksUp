@@ -2,12 +2,16 @@
   font-family: sans-serif;
   text-align: center;
 }
+html,
+body,
+.app {
+  width: 100%;
+  height: 100%;
+}
 .App {
   font-family: sans-serif;
   text-align: center;
   background-color: rgb(206, 240, 195);
-  height: 100vh;
-  width: 100%;
   padding: none;
 }
 .container {
