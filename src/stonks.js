@@ -145,14 +145,12 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
+      <div>
         <h1>Stocks and Shares</h1>
         {/* TASK 2: Make a new Seach Component */}
         <div className="container">
           <div className="orders">
             <h2>BUYING:</h2>
-            Total objects: {this.state.buying.length}
-            <br />
             Total cost:{" "}
             {this.state.buying.reduce((total, item) => {
               return total + item.rates.buy;
@@ -173,8 +171,6 @@ class App extends Component {
           <pre> </pre>
           <div className="orders">
             <h2>SELLING:</h2>
-            Total objects: {this.state.selling.length}
-            <br />
             Total cost:{" "}
             {this.state.selling.reduce((total, item) => {
               return total + item.rates.sell;
