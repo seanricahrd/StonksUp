@@ -104,17 +104,17 @@ class App extends Component {
 
     let s = this.state.buying[0];
 
-    console.log("buying array");
-    console.log(s.stock.name);
-    console.log(s.rates.buy);
-    console.log("balnce ID??");
-    console.log(this.props.balanceID);
-    console.log(this.state.newBalance);
+    // console.log("buying array");
+    // console.log(s.stock.name);
+    // console.log(s.rates.buy);
+    // console.log("balnce ID??");
+    // console.log(this.props.balanceID);
+    // console.log(this.state.newBalance);
     let minused = Number(this.state.newBalance - s.rates.buy);
-    console.log(minused);
+    //console.log(minused);
 
-    console.log("BELOW");
-    console.log(this.state.newBalance);
+    // console.log("BELOW");
+    // console.log(this.state.newBalance);
 
     await updateDoc(doc(db, "Stockies", this.props.balanceID), {
       balance: minused
@@ -156,9 +156,11 @@ class App extends Component {
               return total + item.rates.buy;
             }, 0)}
             <br />
-            <button className="empbtn" onClick={this.addPortfolio}>
-              ADD TO PORTFOLIO
-            </button>
+            {this.state.buying.length !== 0 && (
+              <button className="empbtn" onClick={this.addPortfolio}>
+                ADD TO PORTFOLIO
+              </button>
+            )}
             {/* TASK 3：Add a button to REMOVE the Portfolio */}
             <ol>
               {this.state.buying.map((s, key) => (
@@ -176,9 +178,11 @@ class App extends Component {
               return total + item.rates.sell;
             }, 0)}
             <br />
-            <button className="empbtn" onClick={this.empty2}>
-              REMOVE FROM PORTFOLIO
-            </button>
+            {this.state.selling.length !== 0 && (
+              <button className="empbtn" onClick={this.empty2}>
+                REMOVE FROM PORTFOLIO
+              </button>
+            )}
             <ol>
               {this.state.selling.map((s, key) => (
                 <li key={key}>
